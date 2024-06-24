@@ -392,3 +392,107 @@ Sure, here's a README.md file based on the provided transcript:
 This will create the necessary tables in your database based on the entities defined in your code.
 
 ---
+# Angular Project Setup Notes
+
+## 1. Project Initialization
+
+### Packages and Git Setup
+- Ensure packages are installed successfully (green ticks).
+- If the directory is already under version control, git initialization will be skipped.
+
+### Directory Structure
+- Use VS Code's File Explorer to manage files.
+- Ignore Solution Explorer for client-side projects not registered with the .NET solution folder.
+- Focus on the client-side inside the `dating-app` folder.
+
+## 2. Running the Angular App
+
+### Starting the App
+1. Open a terminal tab in VS Code.
+2. Navigate to the client folder: `cd client`.
+3. Run the Angular application: `ng serve`.
+
+### Troubleshooting
+- Ensure no other instances are running to avoid conflicts.
+- If errors occur, stop any other running applications and try again.
+
+### Verification
+- Open a browser and go to `http://localhost:4200`.
+- The Angular Welcome page should be displayed.
+
+## 3. Project Structure and Files
+
+### Standalone Components (Angular 16+)
+- Angular has shifted from modular architecture to standalone components.
+- No `App.module.ts` file in the new project structure.
+- Standalone components import necessary modules directly in the component.
+
+### Key Files
+- `index.html`: Single page application entry point containing `<app-root>`.
+- `main.ts`: Bootstraps the application with the root component.
+- `app.component.ts`: Root component with `standalone: true` in the decorator.
+
+### Component Decorator
+- Decorator specifies properties like `selector`, `templateUrl`, and `imports`.
+
+### Template and Class Properties
+- Use interpolation `{{ title }}` to access class properties in the template.
+- Hot module reloading reflects changes immediately in the browser.
+
+## 4. Component Files
+
+### Structure
+- Each component consists of:
+  - TypeScript file (`.ts`): Component logic.
+  - HTML template (`.html`): Component view.
+  - CSS file (`.css`): Component-specific styles.
+  - Test file (`.spec.ts`): (Optional) Component tests.
+
+### Removing Unused Files
+- Test files can be removed if not used in the training course.
+
+## 5. Configuration Files
+
+### Application Configuration
+- `app.config.ts`: Application-wide configurations and providers.
+
+### Routing
+- `app-routing.module.ts`: Define application routes.
+
+### Global Styles
+- `styles.css`: Define global styles for the application.
+
+### Build and Serve Configuration
+- `angular.json`: Configuration for building and serving the application.
+
+### Dependencies
+- `package.json`: Lists all dependencies and scripts for the project.
+
+### TypeScript Configuration
+- `tsconfig.json`: Configures TypeScript compiler settings.
+
+## 6. Setting Up Extensions
+
+### Angular Code Assistance
+- Add extensions in VS Code to help write Angular code efficiently.
+
+## Example Code Modifications
+
+### Updating `app.component.html`
+1. Delete existing content:
+    ```html
+    <h1>{{ title }}</h1>
+    ```
+2. Change the `title` property in `app.component.ts`:
+    ```typescript
+    title = 'Dating App';
+    ```
+
+### Verifying Changes
+- Changes should reflect immediately due to hot module reloading.
+- Use browser developer tools (Chrome recommended) to inspect elements and debug.
+
+## Conclusion
+- This guide outlines the basics of setting up and running an Angular project.
+- It covers the new standalone component structure, key configuration files, and running the application.
+- For development, using Chrome and relevant VS Code extensions is recommended.
