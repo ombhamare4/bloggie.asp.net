@@ -245,9 +245,11 @@
 This guide covers the setup and basic structure of an Angular project, the integration of an HTTP client, and handling HTTP requests to communicate with a .NET API endpoint. It also includes an overview of key project files and directories, the introduction of standalone components in Angular 16+, and best practices for dependency injection and handling CORS issues.
 
 ---
+
 # Handling CORS in ASP.NET Core and Angular
 
 ## Overview
+
 Cross-Origin Resource Sharing (CORS) is a security feature implemented in browsers to restrict web pages from making requests to a different domain than the one that served the initial web page. This helps protect against security risks such as cross-site scripting and data theft.
 
 In this example, our Angular application (`localhost:4200`) is trying to access an API hosted on a different server (`localhost:5001`), which requires proper CORS configuration on the server.
@@ -257,50 +259,55 @@ In this example, our Angular application (`localhost:4200`) is trying to access 
 ### Adding CORS as a Service and Middleware
 
 1. **Open `Program.cs`**:
-    ```csharp
-    // Add CORS as a service
-    builder.Services.AddCors();
 
-    // Add CORS as middleware
-    app.UseCors(x => x
-        .AllowAnyHeader()
-        .AllowAnyMethod()
-        .WithOrigins("http://localhost:4200", "https://localhost:4200"));
-    ```
+   ```csharp
+   // Add CORS as a service
+   builder.Services.AddCors();
+
+   // Add CORS as middleware
+   app.UseCors(x => x
+       .AllowAnyHeader()
+       .AllowAnyMethod()
+       .WithOrigins("http://localhost:4200", "https://localhost:4200"));
+   ```
 
 2. **Order of Middleware**:
-    - Place the CORS middleware before mapping controller endpoints.
-    - Correct order ensures the CORS policy is applied before any endpoints are handled.
+
+   - Place the CORS middleware before mapping controller endpoints.
+   - Correct order ensures the CORS policy is applied before any endpoints are handled.
 
 3. **Restart the API Server**:
-    - After making changes to middleware, fully restart the API server to ensure the changes take effect.
-    - Use `dotnet watch` for the restart:
-      ```sh
-      dotnet watch run
-      ```
+   - After making changes to middleware, fully restart the API server to ensure the changes take effect.
+   - Use `dotnet watch` for the restart:
+     ```sh
+     dotnet watch run
+     ```
 
 ## Testing the CORS Configuration
 
 1. **Open the Browser and Refresh**:
-    - Ensure no CORS errors are present.
-    - The request should complete without errors.
+
+   - Ensure no CORS errors are present.
+   - The request should complete without errors.
 
 2. **Check Network Requests**:
-    - Verify that the response headers from the API server include `Access-Control-Allow-Origin` set to `http://localhost:4200`.
-    - Confirm that the API response contains the expected data.
+   - Verify that the response headers from the API server include `Access-Control-Allow-Origin` set to `http://localhost:4200`.
+   - Confirm that the API response contains the expected data.
 
 ## JSON Data Conventions
 
 - **Casing Conventions**:
-    - .NET API uses Pascal casing for class properties.
-    - JSON responses are converted to camel casing by default.
+
+  - .NET API uses Pascal casing for class properties.
+  - JSON responses are converted to camel casing by default.
 
 - **Angular Considerations**:
-    - Angular is case-sensitive. Ensure consistency in data handling between backend and frontend.
+  - Angular is case-sensitive. Ensure consistency in data handling between backend and frontend.
 
 ## Example Code
 
 **Program.cs**:
+
 ```csharp
 var builder = WebApplication.CreateBuilder(args);
 
@@ -324,25 +331,26 @@ app.Run();
 ```
 
 **Angular HTTP Request**:
+
 ```typescript
-import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { HttpClient } from "@angular/common/http";
+import { Component, OnInit } from "@angular/core";
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  selector: "app-root",
+  templateUrl: "./app.component.html",
+  styleUrls: ["./app.component.css"],
 })
 export class AppComponent implements OnInit {
   constructor(private http: HttpClient) {}
 
   ngOnInit() {
-    this.http.get('https://localhost:5001/api/users').subscribe(
-      response => {
-        console.log('Request completed', response);
+    this.http.get("https://localhost:5001/api/users").subscribe(
+      (response) => {
+        console.log("Request completed", response);
       },
-      error => {
-        console.error('Request failed', error);
+      (error) => {
+        console.error("Request failed", error);
       }
     );
   }
@@ -356,12 +364,14 @@ By following these steps, you can successfully configure CORS in your ASP.NET Co
 ## Displaying Users in Angular
 
 ### Navigating in VS Code
+
 - **Accessing Templates**:
   - Right-click the template URL and select "Go to Definition" or press F12.
 - **Angular Components**:
   - Angular components typically have a component file, a template file, and a CSS file.
 
 ### Displaying User List
+
 - **HTML Structure**:
   - Use `<ul>` for an unordered list.
   - Use `<li>` for list items.
@@ -369,20 +379,24 @@ By following these steps, you can successfully configure CORS in your ASP.NET Co
   - Use Angular's structural directive `*ngFor` to loop through the user array.
 
 ### Handling `*ngFor` Directive
+
 - **Error Handling**:
   - Import `NgFor` directive if you see warnings.
   - Alternatively, import the `CommonModule` if using multiple features from it.
 
 ### Example of `*ngFor` Usage
+
 ```html
 <ul>
   <li *ngFor="let user of users">{{ user.id }} - {{ user.username }}</li>
 </ul>
 ```
+
 - **Case Sensitivity**:
   - Ensure casing matches what is returned from the API.
 
 ### Alternative Loop Syntax
+
 - **Using `@for` Control Flow**:
   - New Angular 17 way of looping.
   - Example:
@@ -394,9 +408,176 @@ By following these steps, you can successfully configure CORS in your ASP.NET Co
   - This method does not require importing `NgFor`.
 
 ### Next Steps
+
 - **User Interface Component Library**:
   - Explore adding a UI component library to the project.
 - **Icon Set**:
   - Look into adding an icon set for enhanced UI.
 
 These notes outline how to display user data in an Angular application, navigate through files in VS Code, and handle structural directives and control flow for listing users.
+
+---
+
+# Adding a Component User Interface Library with ng-bootstrap
+
+## Overview
+
+- Use Bootstrap for styling the application.
+- Use Angular component library `ng-bootstrap` for Bootstrap functionality in an Angular context.
+- Ensure compatibility with Angular 17 (as of May 2024).
+
+## Compatibility Concerns
+
+- `ng-bootstrap` might be slow to update for new Angular versions.
+- Current course is based on Angular 17 and ng-bootstrap version 12.
+- Check compatibility:
+  - Version 10: Angular 15
+  - Version 11: Angular 16
+  - Version 12: Angular 17
+- For Angular 18, ensure compatibility or expect potential issues.
+
+## Installation Steps
+
+1. **Install necessary packages manually:**
+   ```sh
+   npm install ngx-bootstrap bootstrap font-awesome
+   ```
+   - Be cautious about version compatibility.
+2. **Handling Compatibility with Angular 18:**
+   - If `ng-bootstrap` is not updated for Angular 18, add an `overrides` section in `package.json`:
+     ```json
+     "overrides": {
+       "@ng-bootstrap/ng-bootstrap": {
+         "peerDependencies": {
+           "@angular/core": "^18.0.0",
+           "@angular/common": "^18.0.0"
+         }
+       }
+     }
+     ```
+   - Run `npm install` again.
+
+## Project Configuration
+
+1. **Add Bootstrap CSS and Font Awesome to `angular.json`:**
+   ```json
+   "styles": [
+     "node_modules/bootstrap/dist/css/bootstrap.min.css",
+     "node_modules/font-awesome/css/font-awesome.min.css",
+     "src/styles.css"
+   ]
+   ```
+   - Ensure the correct path and order for CSS files.
+2. **Restart Angular Application:**
+   ```sh
+   ng serve
+   ```
+   - Verify there are no errors and the application loads with the Bootstrap styles applied.
+
+## Additional Notes
+
+- Bootstrap: A CSS framework providing utility classes and functional elements for HTML.
+- Use Angular components to leverage Angular's change detection over plain JavaScript components.
+- Ensure installation in the correct project directory, typically the client folder.
+
+## Summary
+
+- Installed and configured `ng-bootstrap` and Bootstrap.
+- Verified application changes and addressed potential compatibility issues.
+- Prepared for further customization and component integration in the Angular project.
+
+---
+
+# Running Angular Application on HTTPS in Development
+
+## Overview
+
+- By default, the Angular application runs on HTTP during development.
+- To run it on HTTPS, use the `mkcert` tool to generate self-signed certificates.
+- This is optional and useful for development, ensuring a more secure connection.
+
+## Steps to Enable HTTPS
+
+### 1. Install mkcert
+
+- **mkcert** is a zero-config tool to create self-signed certificates.
+- Follow the installation instructions based on your operating system:
+  - **macOS**: Use Homebrew
+  - **Linux**: Follow guidance for certutil or Homebrew
+  - **Windows**: Use Chocolatey or Scoop package managers
+
+### 2. Set Up Certificates
+
+1. **Install mkcert** (run as administrator if needed):
+
+   ```sh
+   mkcert -install
+   ```
+
+   - This installs a local certificate authority in your system trust store.
+
+2. **Create SSL Directory**:
+   ```sh
+   mkdir SSL
+   cd SSL
+   ```
+3. **Generate Certificates**:
+   ```sh
+   mkcert localhost
+   ```
+   - This generates `localhost.pem` and `localhost-key.pem` files in the SSL directory.
+
+### 3. Configure Angular to Use HTTPS
+
+1. **Update `angular.json`**:
+
+   - Add SSL configuration under the `serve` section:
+     ```json
+     "serve": {
+       "options": {
+         "ssl": true,
+         "sslCert": "./SSL/localhost.pem",
+         "sslKey": "./SSL/localhost-key.pem"
+       }
+     }
+     ```
+
+2. **Restart Angular Application**:
+   ```sh
+   ng serve
+   ```
+   - The application should now run on `https://localhost:4200`.
+
+### 4. Verify HTTPS Setup
+
+- Visit `https://localhost:4200`.
+- Check the browser's security indicator to ensure the connection is secure and the certificate is valid.
+
+## Troubleshooting
+
+- **If mkcert installation fails**:
+  - Verify you have the necessary permissions and follow the installation instructions carefully.
+  - If on a company machine with restrictions, running on HTTP is acceptable.
+- **Common issues**:
+  - Typographical errors in the `angular.json` configuration.
+  - Ensure correct paths to certificate files.
+
+## Additional Notes
+
+- **Self-Signed Certificates**: Suitable for development; proper certificates are required for production.
+- **Security**: Even though HTTPS is used, running on localhost means the application is only accessible locally.
+
+## Source Control
+
+- Exclude `node_modules` and other large or unnecessary files using `.gitignore`.
+- Commit and push changes to source control.
+
+### Git Commands:
+
+```sh
+git add .
+git commit -m "End of section: HTTPS setup"
+git push origin main
+```
+
+---
