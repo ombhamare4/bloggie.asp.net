@@ -1,3 +1,4 @@
+using API;
 using API.Data;
 using Microsoft.EntityFrameworkCore;
 using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
@@ -11,6 +12,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddCors();
+builder.Services.AddScoped<ITokenService,TokenService>();
 
 builder.Services.AddDbContext<DataContext>(opt =>
 {

@@ -113,3 +113,68 @@ async function loginUser(username, inputPassword) {
 - In production, consider using frameworks like ASP.Net Identity for robust and tested solutions.
 
 By following these steps, you can implement a secure password storage system that protects against common attacks and enhances the security of your application.
+
+# Creating a Token Service in .NET
+
+1. **Introduction to the Token Service**:
+   - The goal is to pass a JSON Web Token (JWT) to the user upon successful login.
+   - This token will be used to authenticate requests to protected API endpoints.
+
+2. **Service Creation**:
+   - Services in .NET are injectable components that can be used across the application.
+   - We'll create a service specifically for generating JWTs.
+
+3. **Interface Creation**:
+   - Interfaces in .NET provide an abstraction, defining what a service will do without specifying how.
+   - Create an interface named `ITokenService` in an `Interfaces` folder within the API folder.
+   - The interface method `CreateToken` will return a string (the token) and take an `AppUser` as a parameter.
+
+4. **Service Implementation**:
+   - Create a `TokenService` class in a `Services` folder within the API folder.
+   - Implement the `ITokenService` interface in this class.
+   - Implement the `CreateToken` method to generate the token.
+
+5. **Dependency Injection Setup**:
+   - Register the `TokenService` in the `Program.cs` file.
+   - Use `AddScoped` to specify the service's lifetime. This means a new instance of `TokenService` will be created per HTTP request.
+
+6. **Service Lifetime Options**:
+   - **Singleton**: One instance for the entire application lifetime.
+   - **Transient**: A new instance each time the service is requested.
+   - **Scoped**: A new instance per client request (suitable for our token service).
+
+7. **Interface vs. Implementation**:
+   - Using an interface provides abstraction and decoupling, ensuring that changes in implementation do not affect the consumers of the service.
+   - Interfaces make services more testable by allowing easy creation of mocks.
+
+8. **Implementation and Testing**:
+   - The `TokenService` implementation will be done in subsequent steps.
+   - Using interfaces facilitates unit testing by allowing the creation of mock implementations without relying on actual service logic.
+
+### Example Code
+
+**ITokenService.cs**:
+```csharp
+public interface ITokenService
+{
+    string CreateToken(AppUser user);
+}
+```
+
+**TokenService.cs**:
+```csharp
+public class TokenService : ITokenService
+{
+    public string CreateToken(AppUser user)
+    {
+        // Implementation logic to create a token
+    }
+}
+```
+
+**Program.cs**:
+```csharp
+builder.Services.AddScoped<ITokenService, TokenService>();
+```
+
+This setup allows for scalable and maintainable code by leveraging dependency injection, abstraction, and clean separation of concerns.
