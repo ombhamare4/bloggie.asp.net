@@ -7,10 +7,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace API.Controllers;
 
-public class AccountController(DataContext context) : BaseApiController
+public class AccountController(DataContext context, ITokenService tokenService) : BaseApiController
 {
     [HttpPost("register")]
-    public async Task<ActionResult<AppUser>> Register(RegisterDTO registerDTO)
+    public async Task<ActionResult<UserDTO>> Register(RegisterDTO registerDTO)
     {
         if (await UserExits(registerDTO.username))
         {
@@ -27,11 +27,15 @@ public class AccountController(DataContext context) : BaseApiController
         context.Users.Add(user);
         await context.SaveChangesAsync();
 
-        return user;
+        return new UserDTO
+        {
+            username = user.Username,
+            token = tokenService.CreateToken(user),
+        };
     }
 
     [HttpPost("login")]
-    public async Task<ActionResult<AppUser>> Login(LoginDTO loginDTO)
+    public async Task<ActionResult<UserDTO>> Login(LoginDTO loginDTO)
     {
         var user = await context.Users.FirstOrDefaultAsync(x => x.Username == loginDTO.username.ToLower());
         if (user == null) return Unauthorized("Invalid Username");
@@ -40,12 +44,16 @@ public class AccountController(DataContext context) : BaseApiController
 
         var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(loginDTO.password));
 
-        for(int i=0;i<computedHash.Length;i++)
+        for (int i = 0; i < computedHash.Length; i++)
         {
-            if(computedHash[i] != user.PasswordHash[i]) return Unauthorized("Invalid Password");
+            if (computedHash[i] != user.PasswordHash[i]) return Unauthorized("Invalid Password");
         }
 
-        return user;
+        return new UserDTO
+        {
+            username = user.Username,
+            token = tokenService.CreateToken(user),
+        };
     }
     private async Task<bool> UserExits(string username)
     {

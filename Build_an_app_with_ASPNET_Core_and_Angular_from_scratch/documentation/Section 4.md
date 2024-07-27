@@ -178,3 +178,103 @@ builder.Services.AddScoped<ITokenService, TokenService>();
 ```
 
 This setup allows for scalable and maintainable code by leveraging dependency injection, abstraction, and clean separation of concerns.
+
+---
+
+# Configuring Token Service Logic
+
+1. **Objective**:
+   - Create a JSON Web Token (JWT) and return it as a string.
+   - Inject necessary dependencies into the token service.
+
+2. **Token Configuration**:
+   - Inject `IConfiguration` to access configuration settings, such as the token key.
+
+3. **Steps to Configure Token Service**:
+   - Inject `IConfiguration` in the `TokenService` constructor.
+   - Retrieve the token key from configuration settings.
+   - Validate the token key's existence and length (must be at least 64 characters).
+
+4. **NuGet Package for JWT**:
+   - Install `System.IdentityModel.Tokens.Jwt` package for handling JWT operations.
+
+5. **Key and Claims**:
+   - Create a symmetric security key using the token key.
+   - Define claims for the token, which are assertions about the user.
+
+6. **Token Descriptor**:
+   - Define the token's properties such as subject, expiration, and signing credentials.
+   - Use HMAC SHA-512 for signing the token.
+
+7. **Token Creation**:
+   - Use `JwtSecurityTokenHandler` to create the token.
+   - Return the serialized token as a string.
+
+### Example Code
+
+**TokenService.cs**:
+```csharp
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
+using API.Entities;
+using Microsoft.IdentityModel.Tokens;
+
+namespace API;
+
+public class TokenService(IConfiguration config) : ITokenService
+{
+    public string CreateToken(AppUser user)
+    {
+        var tokenKey = config["TokenKey"] ?? throw new Exception("Cannot access tokenkey from appsettings");
+        if (tokenKey.Length < 64) throw new Exception("Your Token Key must be at least 64 characters");
+
+        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(tokenKey));
+
+        var claims = new List<Claim>
+        {
+          new(ClaimTypes.NameIdentifier, user.Username)
+        };
+
+        var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
+
+        var tokenDescriptor = new SecurityTokenDescriptor()
+        {
+            Subject = new ClaimsIdentity(claims),
+            Expires = DateTime.UtcNow.AddDays(7),
+            SigningCredentials = creds
+        };
+
+        var tokenHandler = new JwtSecurityTokenHandler();
+        var token = tokenHandler.CreateToken(tokenDescriptor);
+
+        return tokenHandler.WriteToken(token);
+
+    }
+}
+```
+
+### Additional Information
+
+**Terms and Concepts**:
+
+1. **JWT (JSON Web Token)**:
+   - A compact, URL-safe means of representing claims to be transferred between two parties. The token is digitally signed, which ensures its integrity and authenticity.
+
+2. **IConfiguration**:
+   - An interface in .NET Core used to read configuration settings. It abstracts the configuration sources such as JSON files, environment variables, and more.
+
+3. **Symmetric Key**:
+   - A type of encryption where the same key is used for both encryption and decryption. It's simpler and faster but requires secure key management.
+
+4. **Claims**:
+   - Statements about an entity (typically, the user) that are included in the token. Examples include user ID, username, and roles.
+
+5. **SecurityTokenDescriptor**:
+   - A class used to define the structure and settings of the token being created, including claims, expiry, and signing credentials.
+
+6. **JwtSecurityTokenHandler**:
+   - A class that provides methods to create, validate, and write JWT tokens.
+
+7. **HMAC SHA-512**:
+   - A cryptographic algorithm used for signing the token. HMAC (Hash-based Message Authentication Code) is a specific construction for creating a MAC involving a cryptographic hash function and a secret cryptographic key.
