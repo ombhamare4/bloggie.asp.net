@@ -1,18 +1,5 @@
-<!-- <div class="container mt-5">
-  <div style="text-align: center">
-    <h1>Find Your Heart’s Desire</h1>
-    <p class="lead">
-      Welcome to romanceBook, where love blossoms and hearts connect. Step
-      into a world where every swipe brings you closer to your perfect match.
-      Whether seeking a soulmate or a romantic adventure, our app is designed to
-      help you discover the one who makes your heart skip a beat. Begin your
-      love story with us today, and let your journey to forever start here.
-    </p>
-  </div>
-</div> -->
-
 <main class="">
-  @if(registerMode){
+  @if(!registerMode){
   <h1 class="fw-bold fs-1">Find Your Heart’s Desire</h1>
   <p class="lead">
     Welcome to romanceBook, where love blossoms and hearts connect. Step into a
@@ -30,7 +17,7 @@
     <div class="row justify-content-center">
       <div class="col-4">
         <!-- <p>Register Form Goes Here</p> -->
-         <app-register></app-register>
+         <app-register [userFromHomeComponent]="users" (cancelRegister)="cancelRegisterMode($event)"></app-register>
       </div>
     </div>
   </div>
