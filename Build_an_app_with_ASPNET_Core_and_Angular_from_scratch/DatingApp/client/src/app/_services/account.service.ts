@@ -18,6 +18,7 @@ export class AccountService {
           this.currentUser.set(user);
         } else {
         }
+        return user;
       })
     );
   }
