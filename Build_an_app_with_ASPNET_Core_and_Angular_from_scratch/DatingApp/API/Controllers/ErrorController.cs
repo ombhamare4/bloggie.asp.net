@@ -24,22 +24,22 @@ public class ErrorController(DataContext context) : BaseApiController
     }
 
     [HttpGet("server-error")]
-    public ActionResult<string> GetServerError()
+    public ActionResult<AppUser> GetServerError()
     {
-        var thing = context.Users.Find(-1).ToString();
-
-        return "secrest test";
+        try
+        {
+            var thing = context.Users.Find(-1) ?? throw new Exception("Something Bad Happened");
+            return thing;
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, "Computer says nothing");
+        }
     }
 
-    [HttpGet("auth")]
-    public ActionResult<string> GetAuth()
+    [HttpGet("bad-request")]
+    public ActionResult<string> GetBadRequest()
     {
-        return "secrest test";
-    }
-
-    [HttpGet("auth")]
-    public ActionResult<string> GetAuth()
-    {
-        return "secrest test";
+        return BadRequest("This was not good request");
     }
 }
