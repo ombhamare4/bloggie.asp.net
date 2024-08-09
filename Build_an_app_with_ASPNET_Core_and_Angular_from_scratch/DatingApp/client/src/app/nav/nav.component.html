@@ -2,8 +2,9 @@
   <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
     <div class="container">
       <a class="navbar-brand text-bold" routerLink="/">romanceBook</a>
-      @if (accountService.currentUser()) {
+
       <ul class="navbar-nav me-auto mb-2 mb-md-0">
+        @if (accountService.currentUser()) {
         <li class="nav-item">
           <a routerLink="/members" routerLinkActive="active" class="nav-link"
             >Matches</a
@@ -28,8 +29,16 @@
         <!-- <li class="nav-item">
           <a class="nav-link" (click)="logout()">Logout</a>
         </li> -->
+        }
+        <li class="nav-item">
+          <a
+            routerLink="/errors"
+            routerLinkActive="active font-bold"
+            class="nav-link"
+            >Errors</a
+          >
+        </li>
       </ul>
-      }
 
       <!-- <div *ngIf="loggedIn">
 
@@ -41,7 +50,7 @@
           <a
             dropdownToggle
             class="dropdown-toggle text-light text-decoration-none"
-            >Welcome {{accountService.currentUser()?.username | titlecase}}</a
+            >Welcome {{ accountService.currentUser()?.username | titlecase }}</a
           >
           <div *dropdownMenu class="dropdown-menu">
             <a class="dropdown-item">Edit Profile </a>
