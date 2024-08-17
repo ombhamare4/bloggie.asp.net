@@ -1,0 +1,27 @@
+<h4>Internal Server Error</h4>
+@if(error){
+<h5 class="text-danger">Error : {{ error.message }}</h5>
+<p class="font-weight-bold">
+  Note: If you are seeing this error then angular not to blame for this
+</p>
+<h4>What to do Next?</h4>
+<ol>
+  <li>
+    Open Chrom Dev tools and check the failing network request in the network
+    tab
+  </li>
+  <li>Examine the URL of a failing Request</li>
+  <li>
+    Reproduce the error in postman - If you can reproduce the error then angular
+    is not to blame
+  </li>
+</ol>
+<h4>
+  Following stack strace - check the first 2 lines this tells you exactly which
+  line of code caused the problem
+</h4>
+<code class="mt-5">
+  {{ error.details }}
+</code>
+
+}

@@ -14,4 +14,15 @@
   <button class="btn btn-outline-danger me-3" (click)="get400ValidationError()">
     Test 400 Validation Error
   </button>
+  <div>
+    @if(validationError.length > 0){
+    <div class="row mt-5">
+      <ul class="text-danger">
+        @for(error of validationError;track $index){
+        <li>{{ error }}</li>
+        }
+      </ul>
+    </div>
+    }
+  </div>
 </div>
