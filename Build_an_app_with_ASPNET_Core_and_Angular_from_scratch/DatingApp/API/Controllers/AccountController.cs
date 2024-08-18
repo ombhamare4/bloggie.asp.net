@@ -12,26 +12,25 @@ public class AccountController(DataContext context, ITokenService tokenService) 
     [HttpPost("register")]
     public async Task<ActionResult<UserDTO>> Register(RegisterDTO registerDTO)
     {
-        if (await UserExits(registerDTO.username))
-        {
-            return BadRequest("Username Already Taken");
-        }
-        using var hmac = new HMACSHA512();
+        if (await UserExits(registerDTO.username)) return BadRequest("Username Already Taken");
 
-        var user = new AppUser
-        {
-            Username = registerDTO.username,
-            PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(registerDTO.password)),
-            PasswordSalt = hmac.Key
-        };
-        context.Users.Add(user);
-        await context.SaveChangesAsync();
+        return Ok();
+        // using var hmac = new HMACSHA512();
 
-        return new UserDTO
-        {
-            username = user.Username,
-            token = tokenService.CreateToken(user),
-        };
+        // var user = new AppUser
+        // {
+        //     Username = registerDTO.username,
+        //     PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(registerDTO.password)),
+        //     PasswordSalt = hmac.Key
+        // };
+        // context.Users.Add(user);
+        // await context.SaveChangesAsync();
+
+        // return new UserDTO
+        // {
+        //     username = user.Username,
+        //     token = tokenService.CreateToken(user),
+        // };
     }
 
     [HttpPost("login")]
