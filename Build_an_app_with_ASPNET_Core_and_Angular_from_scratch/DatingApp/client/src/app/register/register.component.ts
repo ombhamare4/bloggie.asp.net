@@ -12,7 +12,7 @@ import { AccountService } from '../_services/account.service';
 export class RegisterComponent {
   accountService = inject(AccountService);
 
-  userFromHomeComponent = input.required<any>();
+  // userFromHomeComponent = input.required<any>();
   cancelRegister = output<boolean>();
   model: any = {};
   user: any = {};

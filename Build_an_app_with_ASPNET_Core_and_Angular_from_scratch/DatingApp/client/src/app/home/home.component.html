@@ -9,7 +9,9 @@
     with us today, and let your journey to forever start here.
   </p>
   <div class="text-center">
-    <button class="btn btn-primary btn-lg me-2" (click)="registerToggle()">Register</button>
+    <button class="btn btn-primary btn-lg me-2" (click)="registerToggle()">
+      Register
+    </button>
     <button class="btn btn-info btn-lg me-2">Learn More</button>
   </div>
   }@else{
@@ -17,7 +19,10 @@
     <div class="row justify-content-center">
       <div class="col-4">
         <!-- <p>Register Form Goes Here</p> -->
-         <app-register [userFromHomeComponent]="users" (cancelRegister)="cancelRegisterMode($event)"></app-register>
+        <!-- <app-register [userFromHomeComponent]="users" (cancelRegister)="cancelRegisterMode($event)"></app-register> -->
+        <app-register
+          (cancelRegister)="cancelRegisterMode($event)"
+        ></app-register>
       </div>
     </div>
   </div>
