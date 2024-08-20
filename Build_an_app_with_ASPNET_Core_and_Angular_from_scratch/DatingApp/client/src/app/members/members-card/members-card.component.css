@@ -20,11 +20,12 @@
   bottom: -30%;
   left: 0;
   right: 0;
-  margin-inline: auto;
+  margin-right: auto;
+  margin-left: auto;
   opacity: 0;
 }
 
-.card-img-wrapper:hover {
+.card-img-wrapper:hover .member-icon{
   bottom: 0;
   opacity: 1;
 }

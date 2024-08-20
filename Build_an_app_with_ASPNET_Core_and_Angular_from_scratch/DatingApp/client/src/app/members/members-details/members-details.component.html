@@ -1,1 +1,58 @@
-<p>members-details works!</p>
+@if (member){
+<div class="row">
+  <div class="col-3">
+    <div class="card">
+      <img
+        class="card-img img-tumbnail"
+        src="{{ member.photoUrl || './assets/user.png' }}"
+        alt="{{ member.knownAs }}"
+      />
+      <div class="card-body">
+        <div>
+          <strong>Location:</strong>
+          <p>{{ member.city }}, {{ member.country }}</p>
+        </div>
+        <div>
+          <strong>Age:</strong>
+          <p>{{ member.age }}</p>
+        </div>
+        <div>
+          <strong>Last Active:</strong>
+          <p>{{ member.lastActive }}</p>
+        </div>
+        <div>
+          <strong>Member Since:</strong>
+          <p>{{ member.created }}</p>
+        </div>
+      </div>
+      <div class="card-footer">
+        <div class="btn-group d-flex flex-wrap">
+          <button class="btn btn-primary"><i class="fa fa-heart"></i></button>
+          <button class="btn btn-primary">
+            <i class="fa fa-envelope"></i>
+          </button>
+          <button class="btn btn-primary">
+            <i class="fa fa-user-plus"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-9">
+    <div>
+      <tabset class="member-tabs">
+        <tab class="p-1" heading="About" id="tab1">
+          <h4>Bio</h4>
+          <p>{{ member.introduction }}</p>
+          <h4>Looking For</h4>
+          <p>{{ member.lookingFor }}</p>
+          <h4>Intrest</h4>
+          <p>{{ member.intrest }}</p>
+        </tab>
+        <tab class="p-1" heading="Message">Message</tab>
+        <tab class="p-1" heading="Post">Post</tab>
+      </tabset>
+    </div>
+  </div>
+</div>
+}
