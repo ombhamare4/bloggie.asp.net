@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace API.Controllers;
 
 [Authorize]
-public class UsersController(IUserRepository userRepository, IMapper mapper) : BaseApiController
+public class UsersController(IUserRepository userRepository) : BaseApiController
 {
     //Om.so
     // private readonly DataContext _context;
@@ -22,9 +22,8 @@ public class UsersController(IUserRepository userRepository, IMapper mapper) : B
     [HttpGet]
     public async Task<ActionResult<IEnumerable<MemberDTO>>> GetUsers()
     {
-        var users = await userRepository.GetUsersAsync();
-        var userToReturn = mapper.Map<IEnumerable<MemberDTO>>(users);
-        return Ok(userToReturn);
+        var users = await userRepository.GetMembersAsync();
+        return Ok(users);
     }
 
     // [HttpGet("{id}")]
@@ -37,8 +36,8 @@ public class UsersController(IUserRepository userRepository, IMapper mapper) : B
     [HttpGet("{username}")]
     public async Task<ActionResult<MemberDTO>> GetUserByUsername(string username)
     {
-        var user = await userRepository.GetUserByUsernameAsync(username);
+        var user = await userRepository.GetMembersAsync(username);
         if (user == null) return NotFound();
-        return mapper.Map<MemberDTO>(user);
+        return Ok(user);
     }
 }

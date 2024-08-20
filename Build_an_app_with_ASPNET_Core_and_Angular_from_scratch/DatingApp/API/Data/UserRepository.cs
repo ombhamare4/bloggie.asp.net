@@ -1,12 +1,30 @@
 using System;
+using API.DTOs;
 using API.Entities;
 using API.Interfaces;
+using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore;
 
 namespace API.Data;
 
-public class UserRepository(DataContext context) : IUserRepository
+public class UserRepository(DataContext context, IMapper mapper) : IUserRepository
 {
+    public async Task<IEnumerable<MemberDTO>> GetMembersAsync()
+    {
+        return await context.Users
+                .ProjectTo<MemberDTO>(mapper.ConfigurationProvider)
+                .ToListAsync();
+    }
+
+    public async Task<MemberDTO?> GetMembersAsync(string username)
+    {
+        return await context.Users
+                    .Where(x => x.Username == username)
+                    .ProjectTo<MemberDTO>(mapper.ConfigurationProvider)
+                    .SingleOrDefaultAsync();
+    }
+
     public async Task<AppUser> GetUserByIdAsync(int id)
     {
         return await context.Users.FindAsync(id);
