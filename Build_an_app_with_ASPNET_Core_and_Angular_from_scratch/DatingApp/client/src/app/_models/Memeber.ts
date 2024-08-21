@@ -10,7 +10,7 @@ export interface Memeber {
   lastActive: Date;
   gender: string;
   introduction: string;
-  intrest: any;
+  interest: any;
   lookingFor: string;
   city: string;
   country: string;
