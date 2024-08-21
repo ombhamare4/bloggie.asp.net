@@ -42,15 +42,23 @@
     <div>
       <tabset class="member-tabs">
         <tab class="p-1" heading="About" id="tab1">
-          <h4>Bio</h4>
+          <h1>Bio</h1>
           <p>{{ member.introduction }}</p>
-          <h4>Looking For</h4>
+          <h1>Looking For</h1>
           <p>{{ member.lookingFor }}</p>
-          <h4>Intrest</h4>
-          <p>{{ member.interest }}</p>
         </tab>
+        <tab class="p-1" heading="Interest">
+          <h1>Interest</h1>
+          <p>{{ member.interest }}</p></tab
+        >
         <tab class="p-1" heading="Message">Message</tab>
-        <tab class="p-1" heading="Post">Post</tab>
+        <tab class="p-1" heading="Post" #photoTab="tab"
+          >@if (photoTab.active) {
+          <div>
+            <gallery [items]="images" class="gallery"></gallery>
+          </div>
+          }
+        </tab>
       </tabset>
     </div>
   </div>
