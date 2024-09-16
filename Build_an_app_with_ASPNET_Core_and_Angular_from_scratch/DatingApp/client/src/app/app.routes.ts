@@ -3,11 +3,13 @@ import { HomeComponent } from './home/home.component';
 import { MembersListComponent } from './members/members-list/members-list.component';
 import { MessagesComponent } from './messages/messages.component';
 import { ListsComponent } from './lists/lists.component';
-import { authGuard } from './_gaurds/auth.guard';
+import { authGuard } from './_guards/auth.guard';
 import { TestErrorsComponent } from './errors/test-errors/test-errors.component';
 import { NotFoundComponent } from './errors/not-found/not-found.component';
 import { ServerErrorComponent } from './errors/server-error/server-error.component';
 import { MembersDetailsComponent } from './members/members-details/members-details.component';
+import { MemberEditComponent } from './members/member-edit/member-edit.component';
+import { preventUnsavedChangesGuard } from './_guards/prevent-unsaved-changes.guard';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -18,6 +20,11 @@ export const routes: Routes = [
     children: [
       { path: 'members', component: MembersListComponent },
       { path: 'members/:username', component: MembersDetailsComponent },
+      {
+        path: 'member/edit',
+        component: MemberEditComponent,
+        canDeactivate: [preventUnsavedChangesGuard],
+      },
       { path: 'lists', component: ListsComponent },
       { path: 'messages', component: MessagesComponent },
     ],

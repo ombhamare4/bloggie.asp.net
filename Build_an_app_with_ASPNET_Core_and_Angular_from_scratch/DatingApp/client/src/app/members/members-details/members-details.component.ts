@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Memeber } from '../../_models/Memeber';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { GalleryModule, GalleryItem, ImageItem } from 'ng-gallery';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-members-details',
