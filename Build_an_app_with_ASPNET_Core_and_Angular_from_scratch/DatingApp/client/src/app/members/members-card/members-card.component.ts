@@ -1,5 +1,5 @@
 import { Component, input } from '@angular/core';
-import { Memeber } from '../../_models/Memeber';
+import { Member } from '../../_models/Member';
 import { RouterLink } from '@angular/router';
 
 @Component({
@@ -10,5 +10,5 @@ import { RouterLink } from '@angular/router';
   styleUrl: './members-card.component.css',
 })
 export class MembersCardComponent {
-  member = input.required<Memeber>();
+  member = input.required<Member>();
 }

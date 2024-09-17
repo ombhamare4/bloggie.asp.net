@@ -1,7 +1,7 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { MembersService } from '../../_services/members.service';
 import { ActivatedRoute } from '@angular/router';
-import { Memeber } from '../../_models/Memeber';
+import { Member } from '../../_models/Member';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { GalleryModule, GalleryItem, ImageItem } from 'ng-gallery';
 import { FormsModule } from '@angular/forms';
@@ -16,7 +16,7 @@ import { FormsModule } from '@angular/forms';
 export class MembersDetailsComponent implements OnInit {
   private memberService = inject(MembersService);
   private route = inject(ActivatedRoute);
-  member?: Memeber;
+  member?: Member;
   images: GalleryItem[] = [];
 
   ngOnInit(): void {

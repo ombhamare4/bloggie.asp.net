@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 import { environment } from '../../environments/environment';
-import { Memeber } from '../_models/Memeber';
+import { Member } from '../_models/Member';
 
 @Injectable({
   providedIn: 'root',
@@ -9,11 +9,21 @@ import { Memeber } from '../_models/Memeber';
 export class MembersService {
   private http = inject(HttpClient);
   baseUrl = environment.apiUrl;
+  members = signal<Member[]>([]);
 
   getMembers() {
-    return this.http.get<Memeber[]>(this.baseUrl + 'users');
+    return this.http.get<Member[]>(this.baseUrl + 'users').subscribe({
+      next: (members) => {
+        this.members.set(members);
+      },
+    });
   }
   getMember(username: string) {
-    return this.http.get<Memeber>(this.baseUrl + 'users/' + username);
+    const member = this.members().find
+    return this.http.get<Member>(this.baseUrl + 'users/' + username);
+  }
+
+  updateMember(memeber: Member) {
+    return this.http.put(this.baseUrl + 'users', memeber);
   }
 }

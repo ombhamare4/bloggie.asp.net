@@ -5,7 +5,7 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
-import { Memeber } from '../../_models/Memeber';
+import { Member } from '../../_models/Member';
 import { AccountService } from '../../_services/account.service';
 import { MembersService } from '../../_services/members.service';
 import { TabsModule } from 'ngx-bootstrap/tabs';
@@ -33,7 +33,7 @@ export class MemberEditComponent implements OnInit {
   private memberService = inject(MembersService);
   private toastrService = inject(ToastrService);
 
-  member?: Memeber;
+  member?: Member;
   images: GalleryItem[] = [];
 
   ngOnInit() {
@@ -58,8 +58,12 @@ export class MemberEditComponent implements OnInit {
   }
 
   updateForm() {
-    console.log(this.member);
-    this.toastrService.success('Profile Successfully Updated');
-    this.editForm?.reset(this.member);
+
+    this.memberService.updateMember(this.editForm?.value).subscribe({
+      next:_=>{
+        this.toastrService.success('Profile Successfully Updated');
+        this.editForm?.reset(this.member);
+      }
+    });
   }
 }
