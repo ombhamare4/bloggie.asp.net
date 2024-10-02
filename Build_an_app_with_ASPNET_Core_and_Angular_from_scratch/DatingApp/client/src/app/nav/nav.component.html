@@ -50,6 +50,7 @@
       @if (accountService.currentUser()) {
       <div class="d-flex">
         <div dropdown class="dropdown">
+          <img src="{{accountService.currentUser()?.photoUrl || './assets/user.png'}}" alt={{accountService.currentUser()?.username}}/>
           <a
             dropdownToggle
             class="dropdown-toggle text-light text-decoration-none"

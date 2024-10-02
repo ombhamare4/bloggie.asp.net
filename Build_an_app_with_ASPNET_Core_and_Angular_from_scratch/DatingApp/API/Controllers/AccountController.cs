@@ -15,28 +15,15 @@ public class AccountController(DataContext context, ITokenService tokenService) 
         if (await UserExits(registerDTO.username)) return BadRequest("Username Already Taken");
 
         return Ok();
-        // using var hmac = new HMACSHA512();
-
-        // var user = new AppUser
-        // {
-        //     Username = registerDTO.username,
-        //     PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(registerDTO.password)),
-        //     PasswordSalt = hmac.Key
-        // };
-        // context.Users.Add(user);
-        // await context.SaveChangesAsync();
-
-        // return new UserDTO
-        // {
-        //     username = user.Username,
-        //     token = tokenService.CreateToken(user),
-        // };
     }
 
     [HttpPost("login")]
     public async Task<ActionResult<UserDTO>> Login(LoginDTO loginDTO)
     {
-        var user = await context.Users.FirstOrDefaultAsync(x => x.Username == loginDTO.username.ToLower());
+        var user = await context.Users
+        .Include(p=>p.Photos)
+            .FirstOrDefaultAsync(
+                x => x.Username == loginDTO.username.ToLower());
         if (user == null) return Unauthorized("Invalid Username");
 
         using var hmac = new HMACSHA512(user.PasswordSalt);
@@ -50,8 +37,9 @@ public class AccountController(DataContext context, ITokenService tokenService) 
 
         return new UserDTO
         {
-            username = user.Username,
-            token = tokenService.CreateToken(user),
+            Username = user.Username,
+            Token = tokenService.CreateToken(user),
+            PhotoUrl = user.Photos.FirstOrDefault(x=>x.IsMain )?.URL,
         };
     }
     private async Task<bool> UserExits(string username)
