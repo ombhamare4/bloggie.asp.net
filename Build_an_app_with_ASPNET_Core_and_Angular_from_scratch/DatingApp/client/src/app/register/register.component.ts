@@ -1,15 +1,24 @@
-import { Component, input, inject, output } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { Component, inject, OnInit, output } from '@angular/core';
+import {
+  AbstractControl,
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  ValidatorFn,
+  Validators,
+} from '@angular/forms';
 import { AccountService } from '../_services/account.service';
+import { JsonPipe, NgIf } from '@angular/common';
+import { TextInputComponent } from "../_forms/text-input/text-input.component";
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [FormsModule],
+  imports: [ReactiveFormsModule, JsonPipe, NgIf, TextInputComponent],
   templateUrl: './register.component.html',
   styleUrl: './register.component.css',
 })
-export class RegisterComponent {
+export class RegisterComponent implements OnInit {
   accountService = inject(AccountService);
 
   // userFromHomeComponent = input.required<any>();
@@ -17,16 +26,61 @@ export class RegisterComponent {
   model: any = {};
   user: any = {};
 
-  register() {
-    this.accountService.register(this.model).subscribe({
-      next: (response: any) => {
-        this.user = response.username;
-        this.cancel()
-      },
-      error: (error) => {
-        console.log("🌋🌋",error);
-      },
+  registerForm: FormGroup = new FormGroup({});
+
+  ngOnInit(): void {
+    this.intializeForm();
+  }
+
+  intializeForm() {
+    this.registerForm = new FormGroup({
+      username: new FormControl('', Validators.required),
+      password: new FormControl('', [
+        Validators.required,
+        Validators.minLength(4),
+        Validators.maxLength(8),
+      ]),
+      confirmPassword: new FormControl('', [
+        Validators.required,
+        this.matchValues('password'),
+      ]),
     });
+
+    this.registerForm.controls['password'].valueChanges.subscribe({
+      next: () =>
+        this.registerForm.controls['confirmPassword'].updateValueAndValidity(),
+    });
+  }
+
+  passwordValidator(control: FormControl) {
+    const password = control.value;
+    const regex =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,16}$/;
+    if (!regex.test(password)) {
+      return { invalidPassword: true };
+    }
+    return null;
+  }
+
+  matchValues(matchTo: string): ValidatorFn {
+    return (control: AbstractControl) => {
+      return control.value === control.parent?.get(matchTo)?.value
+        ? null
+        : { isMatching: true };
+    };
+  }
+
+  register() {
+    console.log(this.registerForm.value);
+    // this.accountService.register(this.model).subscribe({
+    //   next: (response: any) => {
+    //     this.user = response.username;
+    //     this.cancel()
+    //   },
+    //   error: (error) => {
+    //     console.log("🌋🌋",error);
+    //   },
+    // });
   }
   cancel() {
     this.cancelRegister.emit(false);
