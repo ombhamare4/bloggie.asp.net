@@ -1,0 +1,71 @@
+﻿@page
+@model Bloggie.web.Pages.Admin.Blogs.AddModel
+@{
+}
+
+<div class="bg-secondary bg-opacity-10 py-2 mb-5">
+    <div class="container">
+        <h1>Add Pages</h1>
+    </div>
+</div>
+
+<div class="">
+    <div class="container-xl">
+        <form method="post">
+            <div class="mb-3">
+                <label for="headingInput" class="form-label fw-bold">Heading</label>
+                <input type="text" class="form-control" id="headingInput" asp-for="AddBlogPostRequest.Heading">
+            </div>
+            <div class="mb-3">
+                <label for="pageTitleInput" class="form-label fw-bold">Page Title</label>
+                <input type="text" class="form-control" id="pageTitleInput" asp-for="AddBlogPostRequest.PageTitle">
+            </div>
+            <div class="mb-3">
+                <label for="contentInput" class="form-label fw-bold">Content</label>
+                <textarea class="form-control" id="contentInput" asp-for="AddBlogPostRequest.Content">
+
+                </textarea>
+            </div>
+            <div class="mb-3">
+                <label for="shortDescriptionInput" class="form-label fw-bold">Short Description</label>
+                <input type="text" class="form-control" id="shortDescriptionInput" asp-for="AddBlogPostRequest.ShortDescription">
+            </div>
+
+            <div class="mb-3">
+                <label for="featuredImageUrlInput" class="form-label fw-bold">Featured Image Url</label>
+                <input type="text" class="form-control" id="featuredImageUrlInput" asp-for="AddBlogPostRequest.FeaturedImageUrl">
+            </div>
+
+            <div class="mb-3">
+                <label for="urlHandleInput" class="form-label fw-bold">URL handle</label>
+                <input type="text" class="form-control" id="urlHandleInput" asp-for="AddBlogPostRequest.URLHandle">
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label for="publishDateInput" class="form-label fw-bold">Publish Date</label>
+                    <input type="date" class="form-control" id="publishDateInput" value="" asp-for="AddBlogPostRequest.PublishedDate">
+                </div>
+
+                <div class="col-md-6">
+                    <label for="authorInput" class="form-label fw-bold">Author</label>
+                    <input type="text" class="form-control" id="authorInput" asp-for="AddBlogPostRequest.Author">
+                </div>
+            </div>
+
+          
+            <div class="form-check form-switch mb-3">
+                <input class="form-check-input" type="checkbox" role="switch" id="visibleInput" checked asp-for="AddBlogPostRequest.Visible">
+                <label class="form-check-label fw-bold" for="visibleInput">Visible</label>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-lg">Submit</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    var currentTime = new Date();
+    var formattedDate = currentTime.toISOString().slice(0, 10); // Extract YYYY-MM-DD
+    document.getElementById("publishDateInput").value = formattedDate;
+</script>

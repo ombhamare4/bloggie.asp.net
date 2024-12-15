@@ -1,0 +1,114 @@
+﻿@page "{id:Guid}"
+@model Bloggie.web.Pages.Admin.Blogs.EditModel
+
+
+<div class="bg-secondary bg-opacity-10 py-2 mb-5">
+    <div class="container">
+        <h1>Edit Blog </h1>
+    </div>
+</div>
+
+@{
+    var alertMessage = (string)ViewData["MessageDescription"];
+}
+
+@if (!string.IsNullOrWhiteSpace(alertMessage))
+{
+    <div class="container">
+        <div class="toast align-items-center text-bg-primary border-0" role="alert" aria-atomic="true">
+            <div class="d-flex">
+                <div class="toast-body">
+                    @Html.Raw(alertMessage)
+                </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+        </div>
+
+        <div class="alert alert-success alert-dismissible fade show mb-5" role="alert">
+            @Html.Raw(alertMessage)
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    </div>
+     
+}
+else
+{
+    <h1>Is this Else?</h1>
+}
+
+@if (Model.BlogPost != null)
+{
+    <div class="">
+        <div class="container-xl">
+            <form method="post">
+                <div class="mb-3">
+                    <label for="idInput" class="form-label fw-bold">Id</label>
+                    <input type="text" class="form-control" id="idInput" asp-for="BlogPost.Id" readonly>
+                </div>
+                <div class="mb-3">
+                    <label for="headingInput" class="form-label fw-bold">Heading</label>
+                    <input type="text" class="form-control" id="headingInput" asp-for="BlogPost.Heading">
+                </div>
+                <div class="mb-3">
+                    <label for="pageTitleInput" class="form-label fw-bold">Page Title</label>
+                    <input type="text" class="form-control" id="pageTitleInput" asp-for="BlogPost.PageTitle">
+                </div>
+                <div class="mb-3">
+                    <label for="contentInput" class="form-label fw-bold">Content</label>
+                    <textarea class="form-control" id="contentInput" asp-for="BlogPost.Content">
+
+                    </textarea>
+                </div>
+                <div class="mb-3">
+                    <label for="shortDescriptionInput" class="form-label fw-bold">Short Description</label>
+                    <input type="text" class="form-control" id="shortDescriptionInput" asp-for="BlogPost.ShortDescription">
+                </div>
+
+                <div class="mb-3">
+                    <label for="featuredImageUrlInput" class="form-label fw-bold">Featured Image Url</label>
+                    <input type="text" class="form-control" id="featuredImageUrlInput" asp-for="BlogPost.FeaturedImageUrl">
+                </div>
+
+                <div class="mb-3">
+                    <label for="urlHandleInput" class="form-label fw-bold">URL handle</label>
+                    <input type="text" class="form-control" id="urlHandleInput" asp-for="BlogPost.URLHandle">
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label for="publishDateInput" class="form-label fw-bold">Publish Date</label>
+                        <input type="date" class="form-control" id="publishDateInput" value="" asp-for="BlogPost.PublishedDate">
+                    </div>
+
+                    <div class="col-md-6">
+                        <label for="authorInput" class="form-label fw-bold">Author</label>
+                        <input type="text" class="form-control" id="authorInput" asp-for="BlogPost.Author">
+                    </div>
+                </div>
+
+
+                <div class="form-check form-switch mb-3">
+                    <input class="form-check-input" type="checkbox" role="switch" id="visibleInput" asp-for="BlogPost.Visible">
+                    <label class="form-check-label fw-bold" for="visibleInput">Visible</label>
+                </div>
+
+                <div class="mb-3">
+                    <button type="submit" class="btn btn-primary btn-lg" asp-page-handler="Edit">Submit</button>
+                    <button type="submit" class="btn btn-danger btn-lg" asp-page-handler="Delete">Delete</button>
+                </div>
+            </form>
+        </div>
+    </div>
+}
+else
+{
+    <div class="container">
+        <p>Blog post not found</p>
+    </div>
+}
+
+<script>
+    var currentTime = new Date();
+    var formattedDate = currentTime.toISOString().slice(0, 10); // Extract YYYY-MM-DD
+    document.getElementById("publishDateInput").value = formattedDate;
+</script>
