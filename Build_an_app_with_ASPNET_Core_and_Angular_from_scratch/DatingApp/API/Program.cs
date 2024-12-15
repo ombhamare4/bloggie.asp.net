@@ -2,9 +2,15 @@ using API.Data;
 using API.Extensions;
 using API.Midlleware;
 using Microsoft.EntityFrameworkCore;
-
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// Configure Serilog
+Log.Logger = new LoggerConfiguration()
+    .WriteTo.Console()
+    .CreateLogger();
+
 builder.Services.AddApplicationServices(builder.Configuration);
 builder.Services.AddIdentityServices(builder.Configuration);
 
