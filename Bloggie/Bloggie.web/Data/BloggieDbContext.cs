@@ -9,7 +9,7 @@ namespace Bloggie.web.Data
         {
             optionsBuilder.UseMySql("Server=localhost;Port=3306;Database=bloggiedb;User=root;Password=root;", new MySqlServerVersion(new Version(8, 0, 21)));
         }
-        public BloggieDbContext(DbContextOptions options) : base(options)
+        public BloggieDbContext(DbContextOptions<BloggieDbContext> options) : base(options)
         {
 
         }

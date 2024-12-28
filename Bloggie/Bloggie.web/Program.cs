@@ -1,6 +1,7 @@
 using Bloggie.web.Data;
 using Bloggie.web.Repositories;
 using Bloggie.web.Repositories.Interfaces;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -16,6 +17,17 @@ builder.Services.AddDbContext<BloggieDbContext>(opt =>
 
     opt.UseMySql(connectionString, serverVersion);
 });
+
+builder.Services.AddDbContext<AuthDbContext>(opt =>
+{
+    // opt.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"));
+    var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+    var serverVersion = new MySqlServerVersion(new Version(8, 0, 21)); // Adjust the version according to your MySQL version
+
+    opt.UseMySql(connectionString, serverVersion);
+});
+
+builder.Services.AddIdentity<IdentityUser,IdentityRole>().AddEntityFrameworkStores<AuthDbContext>();
 
 builder.Services.AddScoped<IBlogPost, BlogPostRepository>();
 
@@ -33,7 +45,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
-
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapRazorPages();
