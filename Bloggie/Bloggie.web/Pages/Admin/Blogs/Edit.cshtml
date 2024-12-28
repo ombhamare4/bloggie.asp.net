@@ -1,40 +1,12 @@
 ﻿@page "{id:Guid}"
 @model Bloggie.web.Pages.Admin.Blogs.EditModel
-
-
 <div class="bg-secondary bg-opacity-10 py-2 mb-5">
     <div class="container">
         <h1>Edit Blog </h1>
     </div>
 </div>
 
-@{
-    var alertMessage = (string)ViewData["MessageDescription"];
-}
-
-@if (!string.IsNullOrWhiteSpace(alertMessage))
-{
-    <div class="container">
-        <div class="toast align-items-center text-bg-primary border-0" role="alert" aria-atomic="true">
-            <div class="d-flex">
-                <div class="toast-body">
-                    @Html.Raw(alertMessage)
-                </div>
-                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
-            </div>
-        </div>
-
-        <div class="alert alert-success alert-dismissible fade show mb-5" role="alert">
-            @Html.Raw(alertMessage)
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    </div>
-     
-}
-else
-{
-    <h1>Is this Else?</h1>
-}
+@* <partial name="_Notification">  *@
 
 @if (Model.BlogPost != null)
 {
@@ -107,8 +79,16 @@ else
     </div>
 }
 
-<script>
-    var currentTime = new Date();
-    var formattedDate = currentTime.toISOString().slice(0, 10); // Extract YYYY-MM-DD
-    document.getElementById("publishDateInput").value = formattedDate;
-</script>
+
+@section Scripts {
+
+    <script type='text/javascript' src='https://cdn.jsdelivr.net/npm/froala-editor@latest/js/froala_editor.pkgd.min.js'></script>
+    <script>
+        var currentTime = new Date();
+        var formattedDate = currentTime.toISOString().slice(0, 10); // Extract YYYY-MM-DD
+        document.getElementById("publishDateInput").value = formattedDate;
+
+        var editor = new FroalaEditor('#contentInput');
+    </script>
+}
+

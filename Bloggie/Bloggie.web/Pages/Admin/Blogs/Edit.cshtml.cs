@@ -1,14 +1,14 @@
-using Bloggie.web.Data;
+using Bloggie.web.Enums;
 using Bloggie.web.Models.Domains;
 using Bloggie.web.Models.ViewModels;
 using Bloggie.web.Repositories.Interfaces;
-using Microsoft.AspNetCore.Components.Web;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.EntityFrameworkCore;
 
 namespace Bloggie.web.Pages.Admin.Blogs
 {
+    [Authorize(Roles = "Admin")]
     public class EditModel : PageModel
     {
         private readonly IBlogPost blogPostRepository;
@@ -24,10 +24,26 @@ namespace Bloggie.web.Pages.Admin.Blogs
             BlogPost = await blogPostRepository.GetAsync(id);
 
         }
-        public async Task<IActionResult> OnPostEdit() 
-        {   
-            await blogPostRepository.UpdateAsync(BlogPost);
-            ViewData["MessageDescription"] = "Record Was Successfully Save";
+        public async Task<IActionResult> OnPostEdit()
+        {
+            try
+            {
+                await blogPostRepository.UpdateAsync(BlogPost);
+
+                ViewData["Notification"] = new Notification
+                {
+                    Message = "Record Updated Successfully",
+                    NotificationType = NotificationType.Success
+                };
+            }
+            catch (Exception ex)
+            {
+                ViewData["Notification"] = new Notification
+                {
+                    Message = "Something went wrong. Cannot update Post",
+                    NotificationType = NotificationType.Error
+                };
+            }
             //return Redirect("/Admin/Blogs/List");
             return Page();
         }

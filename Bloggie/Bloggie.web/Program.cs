@@ -8,6 +8,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
+//AddController
+builder.Services.AddControllers();
 
 builder.Services.AddDbContext<BloggieDbContext>(opt =>
 {
@@ -28,8 +30,25 @@ builder.Services.AddDbContext<AuthDbContext>(opt =>
 });
 
 builder.Services.AddIdentity<IdentityUser,IdentityRole>().AddEntityFrameworkStores<AuthDbContext>();
+//Default password setting
+builder.Services.Configure<IdentityOptions>(options=>{
+    options.Password.RequireDigit = true;
+    options.Password.RequireLowercase = true;
+    options.Password.RequireUppercase = false;
+    options.Password.RequireNonAlphanumeric = false;
+    options.Password.RequiredLength = 6;
 
+});
+
+builder.Services.ConfigureApplicationCookie(options => 
+{
+    options.LoginPath = "/Login";
+    options.AccessDeniedPath = "/AccessDenied";
+});
+
+//Repository and Interface Repository Injection
 builder.Services.AddScoped<IBlogPost, BlogPostRepository>();
+builder.Services.AddScoped<IImage, ImageRepository>();
 
 var app = builder.Build();
 
@@ -49,5 +68,6 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapRazorPages();
+app.MapControllers();
 
 app.Run();

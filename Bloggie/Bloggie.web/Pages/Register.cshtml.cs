@@ -42,8 +42,13 @@ namespace Bloggie.web.Pages
                 var identityResult = await usermanger.CreateAsync(newUser, RegisterViewModel.Password);
                 if (identityResult.Succeeded)
                 {
-                    ViewData["Notifications"] = "Successfully Registered";
-                    return Page();
+                    var addRolesResult = await usermanger.AddToRoleAsync(newUser, "User");
+
+                    if (addRolesResult.Succeeded) 
+                    {
+                        ViewData["Notifications"] = "Successfully Registered";
+                        return RedirectToPage("/Login");
+                    }
                 }
                 else
                 {
