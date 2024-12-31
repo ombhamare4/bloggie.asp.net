@@ -44,6 +44,11 @@ namespace Bloggie.web.Repositories
             return await bloggieDbContext.BlogPosts.FindAsync(id);
         }
 
+        public async Task<BlogPost> GetAsync(string urlHandle)
+        {
+            return await bloggieDbContext.BlogPosts.FirstOrDefaultAsync(x => x.URLHandle == urlHandle);
+        }
+
         public async Task<BlogPost> UpdateAsync(BlogPost blogPost)
         {
             var existingBlogPost = await bloggieDbContext.BlogPosts.FindAsync(blogPost.Id);

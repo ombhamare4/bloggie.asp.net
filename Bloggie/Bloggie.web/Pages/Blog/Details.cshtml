@@ -1,0 +1,30 @@
+﻿@page "/blog/{urlHandle}"
+@model Bloggie.web.Pages.Blog.DetailsModel
+@{
+    var blog = @Model.BlogPost;
+}
+
+
+<div class="container my-5">
+    <div class="row justify-content-center">
+
+        <div class="cols-12 col-lg-12">
+            <h2 class="mb-2 fw-bold">@blog.Heading</h2>
+            <div class="d-flex">
+                <span class="text-secondary me-3">@blog.Author</span>
+                <span class="text-secondary me-3">@blog.PublishedDate.ToShortDateString()</span>
+            </div>
+
+
+            <img src="@blog.FeaturedImageUrl" alt="@blog.Heading" class="mb-2 d-block img-fluid" />
+            <div class="px-4 py-4">
+                <h2 class="mb-2 fw-bold">@blog.Heading</h2>
+                
+                <p class="mb-2">
+                    @blog.ShortDescription
+                </p>
+                <code>@blog.Content</code>
+            </div>
+        </div>
+   </div>
+</div>
