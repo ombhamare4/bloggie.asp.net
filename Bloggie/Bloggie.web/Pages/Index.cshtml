@@ -1,0 +1,73 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<div class="container col-xxl-8 px-4">
+    <div class="row align-items-center g-5 py-5">
+        <div class="col-12 col-lg-6">
+            <h1 class="display-5 fw-bold lh-10 mb-3">
+                Bloggie: Your Gateway to <span class="text-danger">Dev Knowledge</span>
+            </h1>
+            <p class="lead">
+                Discover a treasure trove of coding blogs on Bloggie, covering everything from the basics of HTML and CSS to advanced concepts in React and beyond. Whether you're just starting your development journey or looking to level up your skills, Bloggie has the resources you need to succeed!
+            </p>
+        </div>
+        <div class="col-12 col-lg-6">
+            <img src="~/images/title.webp"/>
+        </div>
+    </div>
+</div>
+
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-6 col-md-8 col-sm-10">
+            <h2 class="mb-3 mt-3 display-3 fw-bold">Blogs</h2>
+
+            @if (Model.Tags!=null)
+            {
+                <div class="mb-3 d-flex flex-wrap">
+                    @foreach(var tag in Model.Tags)
+                    {
+                        <a href="/tag/@tag.Name">
+                            <h4 class="badge bg-light text-dark me-2">
+                                @tag.Name
+                            </h4>
+                        </a>
+                        
+                    }
+                </div>
+            }
+            
+            @if (Model.Blogs != null)
+            {
+                @foreach (var blog in Model.Blogs)
+                {
+                    <div class="mb-5 bg-dark text-light shadow-sm rounded-3">
+                        <div class="row justify-content-center rounded-top">
+                            <img src="@blog.FeaturedImageUrl" alt="@blog.Heading" class="img-fluid rounded-top" style="max-width: 100%; height: auto;" />
+                        </div>
+                        <div class="px-4 py-4">
+                            <h2 class="fw-bold text-light">@blog.Heading</h2>
+                            <p class="text-muted">
+                                Author: @blog.Author
+                                <br />
+                                Date: @blog.PublishedDate.ToShortDateString()
+                            </p>
+                            <p>
+                                @blog.ShortDescription
+                            </p>
+                            <a href="/blog/@blog.URLHandle" class="btn btn-outline-light">Read More</a>
+                        </div>
+                    </div>
+                }
+            }
+
+
+
+
+        </div>
+    </div>
+</div>

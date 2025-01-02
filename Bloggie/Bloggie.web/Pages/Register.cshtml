@@ -1,0 +1,43 @@
+﻿@page
+@model Bloggie.web.Pages.RegisterModel
+@{
+}
+@{
+    var alertMessage = (string)ViewData["Notifications"];
+}
+@if (!string.IsNullOrWhiteSpace(alertMessage))
+{
+    <div class="container mx-auto mt-5">
+        <div class="alert alert-success alert-dismissible fade show mb-5" role="alert">
+            @Html.Raw(alertMessage)
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    </div>
+}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-12 col-lg-6">
+            <h1 class="mb-3 h3">Register</h1>
+            <form method="post">
+                <div class="mb-3">
+                    <label for="username" name="username" class="form-label">Username</label>
+                    <input id="username" type="text" placeholder="Username" class="form-control"
+                        asp-for="RegisterViewModel.Username" />
+                </div>
+                <div class="mb-3">
+                    <label for="email" name="email" class="form-label">Email</label>
+                    <input id="email" type="email" placeholder="Email" class="form-control"
+                        asp-for="RegisterViewModel.Email" />
+                </div>
+                <div class="mb-3">
+                    <label for="password" name="password" class="form-label">Password</label>
+                    <input id="password" type="password" placeholder="Password" class="form-control"
+                        asp-for="RegisterViewModel.Password" />
+                </div>
+                <div class="mb-3">
+                    <button type="submit" class="btn btn-primary btn-lg">Register</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -261,3 +261,4 @@ FakesAssemblies/
 
 # Visual Studio 6 workspace options file
 *.opt
+Build_an_app_with_ASPNET_Core_and_Angular_from_scratch/DatingApp/API/appsettings.json

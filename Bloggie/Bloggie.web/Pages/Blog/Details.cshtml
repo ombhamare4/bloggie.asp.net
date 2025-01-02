@@ -1,0 +1,41 @@
+﻿@page "/blog/{urlHandle}"
+@model Bloggie.web.Pages.Blog.DetailsModel
+@{
+
+    var blog = @Model.BlogPost;
+    ViewData["Title"] = blog.PageTitle;
+}
+
+
+<div class="container my-5">
+    <div class="row justify-content-center">
+
+        <div class="cols-12 col-lg-12">
+            <h2 class="mb-2 fw-bold">@blog.Heading</h2>
+            <div class="d-flex mb-2">
+                <span class="text-secondary me-3">@blog.Author</span>
+                <span class="text-secondary me-3">@blog.PublishedDate.ToShortDateString()</span>
+            </div>
+
+            <div class="mb-2">
+                @if (blog.Tags != null)
+                {
+                    <span>Tags: </span>
+                    foreach (var tag in blog.Tags)
+                    {
+                        <a href="/tag/@tag.Name">
+                            <span class="badge bg-dark me-2">
+                                @tag.Name
+                            </span>      
+                        </a>
+                    }
+                }
+            </div>
+            
+            <img src="@blog.FeaturedImageUrl" alt="@blog.Heading" class="mb-2 d-block img-fluid" />
+            <div class="mb-3 blog-details">
+                @Html.Raw(blog.Content)
+            </div>
+        </div>
+   </div>
+</div>
