@@ -7,11 +7,11 @@ namespace Bloggie.web.Pages.Blog
 {
     public class DetailsModel : PageModel
     {
-        private readonly IBlogPost _blogPost;
+        private readonly IBlogPost _blogPost;        
         public BlogPost BlogPost;
         public DetailsModel(IBlogPost blogPost)
         {
-            _blogPost = blogPost;
+            _blogPost = blogPost;        
         }
 
         public async Task<IActionResult> OnGet(String urlHandle)

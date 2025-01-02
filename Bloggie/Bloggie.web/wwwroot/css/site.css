@@ -21,3 +21,8 @@ body {
   margin-bottom: 60px;
   overflow-x:hidden;
 }
+
+.blog-details img{
+    max-width:100%;
+    align-items:center;
+}

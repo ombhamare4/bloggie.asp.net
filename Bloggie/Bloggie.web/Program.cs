@@ -49,6 +49,7 @@ builder.Services.ConfigureApplicationCookie(options =>
 //Repository and Interface Repository Injection
 builder.Services.AddScoped<IBlogPost, BlogPostRepository>();
 builder.Services.AddScoped<IImage, ImageRepository>();
+builder.Services.AddScoped<ITags, TagRepository>();
 
 var app = builder.Build();
 

@@ -18,6 +18,8 @@ namespace Bloggie.web.Pages.Admin.Blogs
         public AddBlogPost AddBlogPostRequest { get; set; }
         [BindProperty]
         public IFormFile FeaturedImage { get; set; }
+        [BindProperty]
+        public String Tags { get; set; }
         public AddModel(IBlogPost blogPostRepository)
         {
             this.blogPostRepository = blogPostRepository;
@@ -40,8 +42,10 @@ namespace Bloggie.web.Pages.Admin.Blogs
                     URLHandle = AddBlogPostRequest.URLHandle,
                     PublishedDate = AddBlogPostRequest.PublishedDate,
                     Author = AddBlogPostRequest.Author,
-                    Visible = AddBlogPostRequest.Visible
+                    Visible = AddBlogPostRequest.Visible,
+                    Tags = new List<Tag>(Tags.Split(",").Select(x => new Tag() { Name = x.Trim() }))
                 };
+
                 await blogPostRepository.AddAsync(blogPost);
 
                 Notification notification = new Notification

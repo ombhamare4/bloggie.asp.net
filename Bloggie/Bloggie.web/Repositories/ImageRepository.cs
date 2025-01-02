@@ -27,7 +27,7 @@ namespace Bloggie.web.Repositories
                 var uploadParams = new ImageUploadParams
                 {
                     File = new FileDescription(file.FileName, stream),
-                    Transformation = new Transformation().Height(400).Width(800)
+                    Transformation = new Transformation().Height(675).Width(1200)
                                     .Crop("fill").Gravity("face"),
                     Folder = "bloggie-net8",
                     DisplayName = file.FileName,
